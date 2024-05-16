@@ -26,6 +26,7 @@ if __name__ == "__main__":
     zones = [50,51,52,53,54,55,56]
     combined_data = pd.DataFrame()
     for prediction in predictions:
+        print(prediction + zone + ' Started!')
         for zone in zones:
             file_name = prediction + str(zone) + '.tab'
             file_path = os.path.join(folder_path, file_name)
@@ -42,6 +43,8 @@ if __name__ == "__main__":
                 # Combine the two datasets and remove duplicates
                 combined_data = gpd.GeoDataFrame(pd.concat([combined_data,data_filtered], ignore_index=True))
                 # combined_data = combined_data.drop_duplicates(subset='Transmitter') # remove duplicates based on transmitter
+            else:
+                data = pd.DataFrame()
         # Save the combined dataset to a new TAB file
         output_filename = prediction + "AllSites.tab"
         output_file = os.path.join(folder_path,output_filename)
