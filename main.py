@@ -7,10 +7,11 @@ import pandas as pd
 # Load the first TAB file
 file1 = r"C:\Users\T1603086\Downloads\z50\LTE_OD_50.tab"
 data1 = gpd.read_file(file1)
-
+print(data1.columns)
 # Load the second TAB file
 file2 = r"C:\Users\T1603086\Downloads\z51\LTE_OD_51.tab"
 data2 = gpd.read_file(file2)
+
 file3 = r"C:\Users\T1603086\Downloads\z52\LTE_OD_52.tab"
 data3 = gpd.read_file(file3)
 file4 = r"C:\Users\T1603086\Downloads\z53\LTE_OD_53.tab"
@@ -24,12 +25,13 @@ data7 = gpd.read_file(file7)
 
 # Combine the two datasets and remove duplicates
 combined_data = gpd.GeoDataFrame(pd.concat([data1, data2, data3, data4, data5, data6, data7], ignore_index=True),crs=data1.crs)
-combined_data = combined_data.drop_duplicates()
+combined_data = combined_data.drop_duplicates(subset='Transmitter') # remove duplicates based on transmitter
 
 
 # Save the combined dataset to a new TAB file
 os.chdir(r"C:\Users\T1603086\Downloads")
-output_file = "tpg_combined_file-5051.tab"
+output_file = "tpg_combined_file-removedup.tab"
+
 combined_data.to_file(output_file, driver="MapInfo File")
 
 print("Combined file saved successfully.")
